@@ -1,0 +1,15 @@
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Harness artifacts
+*.tmp.*
+
+# Built zips and SVN-only assets
+*.zip
+dist/
+build/
+assets/
