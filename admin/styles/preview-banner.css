@@ -1,0 +1,36 @@
+.site-banner-admin .sb-previews {
+    margin: 20px 0;
+}
+
+.site-banner-admin .sb-preview-outer {
+    margin-bottom: 15px;
+}
+
+.site-banner-admin .sb-preview-header h4 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: #50575e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.site-banner-admin .sb-preview-inner {
+    border: 1px dashed #c3c4c7;
+    background: repeating-linear-gradient(
+        45deg,
+        #fafafa,
+        #fafafa 8px,
+        #f3f3f3 8px,
+        #f3f3f3 16px
+    );
+    padding: 0;
+}
+
+.site-banner-admin .sb-preview-banner {
+    width: 100%;
+}
+
+.site-banner-admin .sb-preview-text {
+    padding: 10px 40px;
+    text-align: center;
+}

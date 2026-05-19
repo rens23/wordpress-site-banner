@@ -1,0 +1,62 @@
+[class^="site-banner_"],
+[class*=" site-banner_"] {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+[class^="site-banner-text_"],
+[class*=" site-banner-text_"] {
+    font-weight: 700;
+    padding: 10px 40px;
+    position: relative;
+    line-height: 1.55;
+}
+
+[class^="site-banner-button_"],
+[class*=" site-banner-button_"] {
+    border: none;
+    background-color: transparent;
+    padding: 0 5px;
+    margin: 0 10px;
+    position: absolute;
+    transform: translate(0, -50%);
+    right: 0;
+    top: 50%;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    color: inherit;
+}
+
+[class^="site-banner-cta_"],
+[class*=" site-banner-cta_"] {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.18);
+    color: inherit;
+    padding: 4px 14px;
+    margin: 0 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    font-weight: 600;
+    line-height: 1.5;
+    border: 1px solid currentColor;
+    transition: opacity 0.15s;
+}
+
+[class^="site-banner-cta_"]:hover,
+[class*=" site-banner-cta_"]:hover {
+    opacity: 0.85;
+    text-decoration: none;
+}
+
+.site-banner-cta-block {
+    flex-basis: 100% !important;
+    width: fit-content;
+    margin: 8px auto 4px !important;
+}

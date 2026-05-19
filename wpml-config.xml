@@ -1,0 +1,19 @@
+<wpml-config>
+    <admin-texts>
+        <key name="site_banner_text_1"/>
+        <key name="site_banner_text_2"/>
+        <key name="site_banner_text_3"/>
+        <key name="site_banner_text_4"/>
+        <key name="site_banner_text_5"/>
+        <key name="site_banner_cta_text_1"/>
+        <key name="site_banner_cta_text_2"/>
+        <key name="site_banner_cta_text_3"/>
+        <key name="site_banner_cta_text_4"/>
+        <key name="site_banner_cta_text_5"/>
+        <key name="site_banner_cta_url_1"/>
+        <key name="site_banner_cta_url_2"/>
+        <key name="site_banner_cta_url_3"/>
+        <key name="site_banner_cta_url_4"/>
+        <key name="site_banner_cta_url_5"/>
+    </admin-texts>
+</wpml-config>

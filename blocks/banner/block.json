@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "site-banner/banner",
+    "title": "Site Banner",
+    "category": "widgets",
+    "description": "Render a configured Site Banner inline at this location.",
+    "textdomain": "site-banner",
+    "icon": "megaphone",
+    "attributes": {
+        "bannerId": {
+            "type": "number",
+            "default": 1
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "editorScript": "file:./editor.js",
+    "render": "file:./render.php"
+}
