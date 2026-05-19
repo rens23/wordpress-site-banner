@@ -10,6 +10,11 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 
 global $wpdb;
 
+// Direct DB queries here are appropriate: this is a one-time uninstall path,
+// caching has no role, and there's no get_option() equivalent for a wildcard
+// delete.
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+
 // Drop options. site_banner_* covers everything we register.
 $wpdb->query(
     "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'site_banner\\_%'"
@@ -22,12 +27,14 @@ $wpdb->query(
         OR option_name LIKE '\\_transient\\_timeout\\_site\\_banner\\_license\\_%'"
 );
 
+// phpcs:enable
+
 // Remove our capability from every role that still has it.
-$roles = wp_roles();
-if ($roles && isset($roles->role_objects) && is_array($roles->role_objects)) {
-    foreach ($roles->role_objects as $role) {
-        if ($role->has_cap('manage_site_banner')) {
-            $role->remove_cap('manage_site_banner');
+$sb_roles = wp_roles();
+if ($sb_roles && isset($sb_roles->role_objects) && is_array($sb_roles->role_objects)) {
+    foreach ($sb_roles->role_objects as $sb_role) {
+        if ($sb_role->has_cap('manage_site_banner')) {
+            $sb_role->remove_cap('manage_site_banner');
         }
     }
 }

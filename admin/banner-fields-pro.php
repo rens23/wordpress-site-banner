@@ -1,6 +1,8 @@
 <?php
 /**
  * Per-banner pro fields. Expects $i, $suffix, $is_pro in scope.
+ *
+ * phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 if (!defined('ABSPATH')) {
@@ -16,7 +18,7 @@ $section_hidden = $i > 1;
 ?>
 <div class="sb-section sb-banner-section sb-banner-pro-section" data-suffix="<?php echo esc_attr($suffix); ?>"<?php echo $section_hidden ? ' style="display:none;"' : ''; ?>>
     <h2>
-        <?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d — Pro', 'site-banner'), $i); ?>
+        <?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d — Pro', 'site-banner'), (int) $i); ?>
         <?php if (!$is_pro): ?>
             <a class="button button-secondary" href="https://rensh.gumroad.com/l/site-banner-plugin" target="_blank" rel="noopener">
                 <?php esc_html_e('Unlock with license', 'site-banner'); ?>

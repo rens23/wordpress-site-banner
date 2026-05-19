@@ -3,6 +3,9 @@
  * Per-banner field block (free tier).
  *
  * Expects $i (1-indexed banner number) and $suffix (e.g. "_1") in scope.
+ *
+ * Variables here are template-locals, included from site_banner_render_settings_page().
+ * phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 if (!defined('ABSPATH')) {
@@ -18,7 +21,7 @@ $is_checked = function ($v) {
 $section_hidden = $i > 1;
 ?>
 <div class="sb-section sb-banner-section" data-suffix="<?php echo esc_attr($suffix); ?>"<?php echo $section_hidden ? ' style="display:none;"' : ''; ?>>
-    <h2><?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d', 'site-banner'), $i); ?></h2>
+    <h2><?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d', 'site-banner'), (int) $i); ?></h2>
 
     <table class="form-table" role="presentation">
         <tr>
@@ -58,12 +61,12 @@ $section_hidden = $i > 1;
                 <fieldset>
                     <label>
                         <input type="radio" name="site_banner_hide<?php echo esc_attr($suffix); ?>" value="no"
-                            <?php echo $is_checked($opt('site_banner_hide') !== 'yes'); ?>>
+                            <?php checked($opt('site_banner_hide') !== 'yes'); ?>>
                         <?php esc_html_e('Show banner', 'site-banner'); ?>
                     </label><br>
                     <label>
                         <input type="radio" name="site_banner_hide<?php echo esc_attr($suffix); ?>" value="yes"
-                            <?php echo $is_checked($opt('site_banner_hide') === 'yes'); ?>>
+                            <?php checked($opt('site_banner_hide') === 'yes'); ?>>
                         <?php esc_html_e('Hide banner', 'site-banner'); ?>
                     </label>
                 </fieldset>
@@ -171,7 +174,7 @@ $section_hidden = $i > 1;
                             checked($current, $value, false),
                             esc_attr($disabled),
                             esc_html($label),
-                            $badge
+                            wp_kses($badge, array('em' => array('style' => array())))
                         );
                     }
                     ?>
@@ -185,7 +188,7 @@ $section_hidden = $i > 1;
                 <label>
                     <input type="checkbox" id="site_banner_close_button_enabled<?php echo esc_attr($suffix); ?>"
                            name="site_banner_close_button_enabled<?php echo esc_attr($suffix); ?>"
-                           <?php echo $is_checked($opt('site_banner_close_button_enabled')); ?>>
+                           <?php checked($opt('site_banner_close_button_enabled')); ?>>
                     <?php esc_html_e('Enable close button', 'site-banner'); ?>
                 </label>
                 <p class="description"><?php esc_html_e('Uses a strictly-necessary cookie (GDPR compliant).', 'site-banner'); ?></p>
@@ -238,7 +241,7 @@ $section_hidden = $i > 1;
                         <p style="margin-top:10px;">
                             <label>
                                 <input type="checkbox" name="site_banner_wp_body_open_enabled"
-                                    <?php echo $is_checked(get_option('site_banner_wp_body_open_enabled')); ?>>
+                                    <?php checked((bool) get_option('site_banner_wp_body_open_enabled')); ?>>
                                 <?php esc_html_e('Use wp_body_open hook (server-render banner #1)', 'site-banner'); ?>
                             </label>
                             <span class="description"><?php esc_html_e('Can eliminate cumulative-layout-shift issues.', 'site-banner'); ?></span>

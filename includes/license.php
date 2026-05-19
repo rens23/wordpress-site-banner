@@ -44,14 +44,8 @@ define('SITE_BANNER_LICENSE_TRANSIENT_PREFIX', 'site_banner_license_v2_');
 function site_banner_get_device_fingerprint() {
     $fp = get_option('site_banner_device_fingerprint');
     if (!$fp) {
-        $fp = function_exists('wp_generate_uuid4')
-            ? wp_generate_uuid4()
-            : sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-                mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-                mt_rand(0, 0xffff),
-                mt_rand(0, 0x0fff) | 0x4000,
-                mt_rand(0, 0x3fff) | 0x8000,
-                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff));
+        // wp_generate_uuid4 exists in every supported WP version (since 4.4).
+        $fp = wp_generate_uuid4();
         update_option('site_banner_device_fingerprint', $fp, false);
     }
     return $fp;
@@ -129,7 +123,7 @@ function site_banner_licenseseat_call($action, $license_key) {
     );
     // On activate, label the seat with the site host so it's identifiable in the LicenseSeat dashboard.
     if ($action === 'activate') {
-        $host = parse_url(home_url(), PHP_URL_HOST);
+        $host = wp_parse_url(home_url(), PHP_URL_HOST);
         if ($host) {
             $payload['device_name'] = $host;
         }

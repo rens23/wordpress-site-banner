@@ -3,7 +3,7 @@
  * Plugin Name: Site Banner
  * Plugin URI:  https://rensh.gumroad.com/l/site-banner-plugin
  * Description: Display configurable banners at the top or bottom of your website.
- * Version:     0.6.7
+ * Version:     0.6.8
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author:      Rens Hakkesteegt
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('SITE_BANNER_VERSION', '0.6.7');
+define('SITE_BANNER_VERSION', '0.6.8');
 define('SITE_BANNER_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SITE_BANNER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('SITE_BANNER_SETTINGS_GROUP', 'site-banner-settings-group');
@@ -51,6 +51,9 @@ function site_banner_translate($value, $option_key) {
     if (!site_banner_is_pro()) {
         return $value;
     }
+    // WPML's `wpml_translate_single_string` filter is the documented API; the
+    // name is owned by WPML, not us, so it can't carry our prefix.
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     return apply_filters('wpml_translate_single_string', $value, 'admin_texts_plugin_site-banner', '[' . $option_key . ']');
 }
 
@@ -123,10 +126,8 @@ function site_banner_pro_global_option_keys() {
  * Activation / deactivation
  * ---------------------------------------------------------------------- */
 
-add_action('plugins_loaded', 'site_banner_load_textdomain');
-function site_banner_load_textdomain() {
-    load_plugin_textdomain('site-banner', false, dirname(plugin_basename(__FILE__)) . '/languages');
-}
+// Note: load_plugin_textdomain() is no longer needed; WordPress auto-loads
+// translations for plugins hosted on WordPress.org as of WP 4.6.
 
 register_activation_hook(__FILE__, 'site_banner_activate');
 function site_banner_activate() {
@@ -245,12 +246,17 @@ function site_banner_register_settings() {
  */
 add_filter('wp_redirect', 'site_banner_inject_verify_on_save', 10, 2);
 function site_banner_inject_verify_on_save($location, $status) {
-    if (empty($_POST['option_page']) || $_POST['option_page'] !== SITE_BANNER_SETTINGS_GROUP) {
+    // Nonce verification: this filter fires AFTER options.php has already
+    // validated its own nonce. We're only inspecting the request shape; we're
+    // not processing form data ourselves.
+    // phpcs:disable WordPress.Security.NonceVerification.Missing
+    if (empty($_POST['option_page']) || sanitize_text_field(wp_unslash($_POST['option_page'])) !== SITE_BANNER_SETTINGS_GROUP) {
         return $location;
     }
     if (empty($_POST['site_banner_verify_after_save'])) {
         return $location;
     }
+    // phpcs:enable WordPress.Security.NonceVerification.Missing
     if (strpos($location, 'page=' . SITE_BANNER_MENU_SLUG) === false) {
         return $location;
     }
@@ -284,7 +290,7 @@ function site_banner_render_settings_page() {
         require SITE_BANNER_PLUGIN_DIR . 'admin/settings-page.php';
         return;
     }
-    $nonce = isset($_GET['_wpnonce']) ? (string) wp_unslash($_GET['_wpnonce']) : '';
+    $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
 
     if (!empty($_GET['site_banner_verify'])) {
         if (wp_verify_nonce($nonce, 'site_banner_verify_now')) {
@@ -363,7 +369,8 @@ function site_banner_is_hidden($suffix) {
 
     $disabled_paths = (string) get_option('site_banner_disabled_paths' . $suffix);
     if ($disabled_paths !== '' && isset($_SERVER['REQUEST_URI'])) {
-        $req_path = parse_url((string) wp_unslash($_SERVER['REQUEST_URI']), PHP_URL_PATH);
+        $req_uri  = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI']));
+        $req_path = wp_parse_url($req_uri, PHP_URL_PATH);
         if ($req_path !== null && site_banner_path_matches($req_path, $disabled_paths)) {
             return true;
         }
@@ -553,6 +560,7 @@ function site_banner_emit_styles() {
         // Output is composed entirely of option values that were sanitized on save
         // (wp_strip_all_tags for the CSS textareas, wp_filter_nohtml_kses for the
         // scalars). Wrapping in <style> means no further escaping per WP conventions.
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo '<style id="' . esc_attr($banner_cls) . '-styles">' . $css . '</style>' . "\n";
     }
 }
@@ -580,9 +588,13 @@ function site_banner_emit_site_assets() {
         $keep_js      = (bool)   get_option('site_banner_keep_site_js' . $suffix);
 
         if ($css !== '' && (!$is_hidden || $keep_css)) {
+            // CSS textarea is admin-only, wp_strip_all_tags-sanitized on save.
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '<style id="site-banner-site-css' . esc_attr($suffix) . '">' . $css . '</style>' . "\n";
         }
         if ($js !== '' && (!$is_hidden || $keep_js)) {
+            // JS textarea is intentionally rendered verbatim. Admin-only feature.
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '<script id="site-banner-site-js' . esc_attr($suffix) . '">' . $js . '</script>' . "\n";
         }
     }
@@ -698,6 +710,8 @@ function site_banner_maybe_register_body_open() {
 }
 
 function site_banner_render_body_open() {
+    // Helper returns fully-escaped HTML (esc_attr / wp_kses_post / esc_url applied internally).
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo site_banner_render_html_for_index(1);
 }
 

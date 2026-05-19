@@ -3,6 +3,8 @@
  * Live preview pane.
  *
  * Expects $i and $suffix in scope.
+ *
+ * phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 if (!defined('ABSPATH')) {
@@ -24,7 +26,7 @@ $hidden = $i > 1;
 ?>
 <div id="sb-preview-outer<?php echo esc_attr($suffix); ?>" class="sb-preview-outer" data-suffix="<?php echo esc_attr($suffix); ?>"<?php echo $hidden ? ' style="display:none;"' : ''; ?>>
     <div class="sb-preview-header">
-        <h4><?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d preview', 'site-banner'), $i); ?></h4>
+        <h4><?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d preview', 'site-banner'), (int) $i); ?></h4>
     </div>
     <div id="sb-preview-inner<?php echo esc_attr($suffix); ?>" class="sb-preview-inner">
         <div id="sb-preview<?php echo esc_attr($suffix); ?>"

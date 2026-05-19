@@ -4,6 +4,8 @@
  *
  * Loaded from site_banner_render_settings_page().
  * All constants and helper functions live in site-banner.php.
+ *
+ * phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 if (!defined('ABSPATH')) {
@@ -195,7 +197,7 @@ $is_pro      = site_banner_is_pro();
                 <select id="sb_banner_selector">
                     <?php for ($i = 1; $i <= $num_banners; $i++): ?>
                         <option value="<?php echo esc_attr(site_banner_id_suffix($i)); ?>">
-                            <?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d', 'site-banner'), $i); ?>
+                            <?php /* translators: %d: banner number */ printf(esc_html__('Banner #%d', 'site-banner'), (int) $i); ?>
                         </option>
                     <?php endfor; ?>
                 </select>

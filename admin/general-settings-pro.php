@@ -2,6 +2,8 @@
 /**
  * Global pro settings: role permissions, debug mode.
  * Expects $is_pro in scope.
+ *
+ * phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  */
 
 if (!defined('ABSPATH')) {
