@@ -3,7 +3,7 @@
  * Plugin Name: Site Banner
  * Plugin URI:  https://rensh.gumroad.com/l/site-banner-plugin
  * Description: Display configurable banners at the top or bottom of your website.
- * Version:     0.6.8
+ * Version:     0.6.9
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author:      Rens Hakkesteegt
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('SITE_BANNER_VERSION', '0.6.8');
+define('SITE_BANNER_VERSION', '0.6.9');
 define('SITE_BANNER_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SITE_BANNER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('SITE_BANNER_SETTINGS_GROUP', 'site-banner-settings-group');

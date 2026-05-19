@@ -30,11 +30,11 @@ $wpdb->query(
 // phpcs:enable
 
 // Remove our capability from every role that still has it.
-$sb_roles = wp_roles();
-if ($sb_roles && isset($sb_roles->role_objects) && is_array($sb_roles->role_objects)) {
-    foreach ($sb_roles->role_objects as $sb_role) {
-        if ($sb_role->has_cap('manage_site_banner')) {
-            $sb_role->remove_cap('manage_site_banner');
+$site_banner_roles = wp_roles();
+if ($site_banner_roles && isset($site_banner_roles->role_objects) && is_array($site_banner_roles->role_objects)) {
+    foreach ($site_banner_roles->role_objects as $site_banner_role) {
+        if ($site_banner_role->has_cap('manage_site_banner')) {
+            $site_banner_role->remove_cap('manage_site_banner');
         }
     }
 }

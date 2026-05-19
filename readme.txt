@@ -4,7 +4,7 @@ Tags: banner, notification, announcement, bar, cookie-bar
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.6.8
+Stable tag: 0.6.9
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -139,6 +139,9 @@ Open the **Last check** diagnostic panel on the settings page — it shows the e
 4. The banner rendered on the front-end.
 
 == Changelog ==
+
+= 0.6.9 =
+* Renamed `$sb_roles` / `$sb_role` locals in uninstall.php to `$site_banner_roles` / `$site_banner_role` to satisfy the WP coding-standards prefix-all-globals rule.
 
 = 0.6.8 =
 * Plugin Check / WP Coding Standards pass: replaced `mt_rand` with `wp_rand`-equivalent, `parse_url` with `wp_parse_url`, added `sanitize_text_field` on `$_GET`/`$_SERVER` reads, replaced custom `is_checked` closure with WordPress's `checked()` function, escaped integer `$i` outputs, and added targeted phpcs:ignore comments on intentional patterns (admin-only verbatim CSS/JS, WPML hook name, uninstall direct queries).
