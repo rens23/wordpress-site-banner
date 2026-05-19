@@ -27,7 +27,7 @@ The recommended install path is from the official WordPress.org plugin directory
 
 ## Pro features
 
-Pro features unlock with a license key purchased via [Gumroad](https://rensh.gumroad.com/l/site-banner-plugin). The integration with [LicenseSeat](https://licenseseat.com) handles real device fingerprinting, seat limits, and activation/deactivation.
+Pro features unlock with a license key purchased via [Gumroad](https://rensh.gumroad.com/l/site-banner-plugin). Each license is bound to one site via a stable per-install fingerprint; you can deactivate a seat from inside the plugin to move the license to a different site.
 
 - **Up to 5 banners** managed from a single dropdown
 - **Call-to-action button** per banner — text, URL, colors, "open in new tab", inline or block layout
@@ -45,11 +45,11 @@ Pro features unlock with a license key purchased via [Gumroad](https://rensh.gum
 
 ## Privacy / external services
 
-The Pro license check is the only external call. It runs only when you save a license key on the settings page, and only against [LicenseSeat](https://licenseseat.com). The plugin sends:
+The Pro license check is the only external call. It runs only when you save a license key on the settings page, and only against our license server at `https://licenseseat.com/api/v1/`. The plugin sends:
 
 - the license key you entered,
 - a randomly-generated UUIDv4 fingerprint stored in your site's `wp_options`,
-- the site hostname (so seats are identifiable in your LicenseSeat dashboard).
+- the site hostname (used as the seat label).
 
 No visitor data is ever sent. The free tier never contacts any external server.
 

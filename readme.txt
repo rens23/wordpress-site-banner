@@ -4,7 +4,7 @@ Tags: banner, notification, announcement, bar, cookie-bar
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.6.6
+Stable tag: 0.6.7
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ Site Banner lets you place announcement, promotion, or notification banners on y
 
 == External services ==
 
-The Pro tier validates a license key against LicenseSeat (https://licenseseat.com). The plugin contacts this service only when an admin enters a license key on the settings page. We do not phone home for the free tier.
+The Pro tier validates a license key against our license server at `https://licenseseat.com/api/v1/`. The plugin contacts this endpoint only when an admin enters a license key on the settings page. The free tier never contacts any external server.
 
 What is sent on activate / validate / deactivate:
 
@@ -52,10 +52,7 @@ What is sent on activate / validate / deactivate:
 * A randomly-generated UUIDv4 stored in this site's database as `site_banner_device_fingerprint` (no PII)
 * On activate only: the site's hostname (e.g. `example.com`) as the seat label
 
-When: only after the admin enters a license key. Results are cached in a transient for one hour.
-
-LicenseSeat's privacy policy: https://licenseseat.com/privacy
-LicenseSeat's terms: https://licenseseat.com/terms
+When: only after the admin enters a license key. Results are cached in a transient for one hour. See https://licenseseat.com/privacy and https://licenseseat.com/terms.
 
 == Third-party libraries ==
 
@@ -120,7 +117,7 @@ Yes — see the **Pro features** list above. Free tier is fully functional with 
 
 = How do I get a Pro license? =
 
-Pro licenses are sold via Gumroad. The Gumroad → LicenseSeat integration issues your key automatically after purchase. Paste it into the **License** section of the settings page and save — the plugin activates this site against LicenseSeat with a stable per-install fingerprint. You can deactivate a seat from the LicenseSeat dashboard if you need to move the license to a different site.
+Pro licenses are sold via Gumroad. Your license key is delivered with your purchase. Paste it into the **License** section of the settings page and save — the plugin activates this site with a stable per-install fingerprint. To move the license to a different site, click **Deactivate this site** on the original site, then save the key on the new one.
 
 = How do I translate banner text? =
 
@@ -128,11 +125,11 @@ With the Pro license active, install WPML or Polylang. Save the banner text on o
 
 = Does the plugin phone home? =
 
-Only when you save a Pro license key, and only to LicenseSeat (https://licenseseat.com) for activation/validation. We send the license key you entered, an anonymous UUID fingerprint, and the site hostname (so seats are identifiable in your LicenseSeat dashboard). No visitor data is ever sent. The free tier never contacts any external server.
+Only when you save a Pro license key, and only to our license server at `https://licenseseat.com/api/v1/` for activation/validation. We send the license key you entered, an anonymous UUID fingerprint, and the site hostname. No visitor data is ever sent. The free tier never contacts any external server.
 
-= I clicked "Verify license now" and got an error page =
+= I clicked "Verify license now" and got an error =
 
-Open the **Last check** diagnostic panel on the settings page — it shows the exact HTTP status, the endpoint called, and the response body LicenseSeat returned. The most common causes are: a typo in the license key, your hosting provider blocking outbound HTTPS to `api.licenseseat.com`, or the seat already used on another site (in which case deactivate it from the LicenseSeat dashboard first).
+Open the **Last check** diagnostic panel on the settings page — it shows the exact HTTP status, the endpoint called, and the response body. The most common causes are: a typo in the license key, your host blocking outbound HTTPS, or the seat already used on another site (in which case click **Deactivate this site** on the original site first).
 
 == Screenshots ==
 
@@ -143,6 +140,9 @@ Open the **Last check** diagnostic panel on the settings page — it shows the e
 
 == Changelog ==
 
+= 0.6.7 =
+* User-facing strings (admin notices, button text, descriptions, FAQ) no longer name the licensing back-end by brand. The External Services section still discloses the actual endpoint URL as required by directory rules.
+
 = 0.6.6 =
 * "Verify license now" button replaced with "Save & verify license" — it now submits the settings form (saving any pasted key) and then runs verify in one click. The previous link-only approach didn't save form changes.
 
@@ -150,7 +150,7 @@ Open the **Last check** diagnostic panel on the settings page — it shows the e
 * Verify-now with an empty license key now shows a specific "No license key saved — paste and Save Changes first" notice instead of generic "Verify failed", and refreshes the diagnostic panel so stale rows don't linger.
 
 = 0.6.4 =
-* Added "Deactivate this site" button next to "Verify license now". One click clears the saved license key and tells LicenseSeat to free the seat. Confirms before acting.
+* Added "Deactivate this site" button next to "Verify license now". One click clears the saved license key and frees the seat. Confirms before acting.
 
 = 0.6.3 =
 * "Verify license now" no longer routes through admin-post.php (which on some hosts produced a blank wp_die page). The verify now runs inline on the settings page itself via a nonced link, then shows a success/failure notice and refreshes the diagnostic panel.
@@ -174,7 +174,7 @@ Open the **Last check** diagnostic panel on the settings page — it shows the e
 * Plugin now loads its text domain on `plugins_loaded`.
 
 = 0.5.1 =
-* Activate now sends the site hostname as `device_name` so seats are identifiable in the LicenseSeat dashboard.
+* Activate now sends the site hostname as the seat label so seats are easier to identify.
 * Verify-now redirect made more robust with a fallback HTML page.
 
 = 0.5.0 =
@@ -184,10 +184,9 @@ Open the **Last check** diagnostic panel on the settings page — it shows the e
 = 0.4.x =
 * "Verify license now" button + diagnostic panel showing the last API check.
 * Self-healing license check that auto-activates the device on `device_not_activated`.
-* LicenseSeat product slug `site-banner-wordpress-plugin`.
 
 = 0.3.0 =
-* Licensing migrated to LicenseSeat with stable per-install fingerprint.
+* Licensing now uses a stable per-install fingerprint and device-bound seats.
 
 == Upgrade Notice ==
 

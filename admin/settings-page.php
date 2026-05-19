@@ -91,9 +91,9 @@ $is_pro      = site_banner_is_pro();
             <?php elseif ($verify_result === 'fail'): ?>
                 <div class="notice notice-error inline"><p><?php esc_html_e('Verify failed — see the Last check diagnostic below.', 'site-banner'); ?></p></div>
             <?php elseif ($verify_result === 'no_key'): ?>
-                <div class="notice notice-warning inline"><p><?php esc_html_e('No license key saved. Paste your key above and click "Save Changes" — saving auto-activates the site against LicenseSeat.', 'site-banner'); ?></p></div>
+                <div class="notice notice-warning inline"><p><?php esc_html_e('No license key saved. Paste your key above and click "Save Changes" — saving auto-activates the site.', 'site-banner'); ?></p></div>
             <?php elseif ($verify_result === 'deactivated'): ?>
-                <div class="notice notice-success inline"><p><?php esc_html_e('License removed. This site has been deactivated from LicenseSeat.', 'site-banner'); ?></p></div>
+                <div class="notice notice-success inline"><p><?php esc_html_e('License removed. This site has been deactivated.', 'site-banner'); ?></p></div>
             <?php elseif ($verify_result === 'bad_nonce'): ?>
                 <div class="notice notice-error inline"><p><?php esc_html_e('Security check failed. Reload the page and try again.', 'site-banner'); ?></p></div>
             <?php endif; ?>
@@ -107,7 +107,7 @@ $is_pro      = site_banner_is_pro();
                         <input type="text" id="site_banner_license_key" name="site_banner_license_key"
                                value="<?php echo esc_attr(get_option('site_banner_license_key')); ?>"
                                class="regular-text" autocomplete="off">
-                        <p class="description"><?php esc_html_e('Paste the license key you received after purchase. On save, the plugin activates this site against LicenseSeat and caches the result for one hour. Removing or changing the key automatically deactivates the previous seat.', 'site-banner'); ?></p>
+                        <p class="description"><?php esc_html_e('Paste the license key you received after purchase. On save, the plugin activates this site against the license server and caches the result for one hour. Removing or changing the key automatically deactivates the previous seat.', 'site-banner'); ?></p>
                     </td>
                 </tr>
                 <tr>
@@ -134,12 +134,12 @@ $is_pro      = site_banner_is_pro();
                             <a href="<?php echo esc_url($deactivate_url); ?>"
                                class="button button-link-delete"
                                style="margin-left:8px;color:#b32d2e;"
-                               onclick="return confirm('<?php echo esc_js(__('Remove the license key and deactivate this site from LicenseSeat? Pro features will turn off.', 'site-banner')); ?>');">
+                               onclick="return confirm('<?php echo esc_js(__('Remove the license key and deactivate this site? Pro features will turn off.', 'site-banner')); ?>');">
                                 <?php esc_html_e('Deactivate this site', 'site-banner'); ?>
                             </a>
                         <?php endif; ?>
 
-                        <p class="description"><?php esc_html_e('Save & verify writes the form (including a newly-pasted license key) and re-checks against LicenseSeat in one click. Deactivate clears the key and frees the seat.', 'site-banner'); ?></p>
+                        <p class="description"><?php esc_html_e('Save & verify writes the form (including a newly-pasted license key) and re-checks the license in one click. Deactivate clears the key and frees the seat.', 'site-banner'); ?></p>
                     </td>
                 </tr>
                 <?php $trace = get_option('site_banner_verify_trace'); if (is_array($trace) && !empty($trace)): ?>
